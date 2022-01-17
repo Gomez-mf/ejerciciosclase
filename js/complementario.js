@@ -1,6 +1,7 @@
-let numero = parseInt(prompt("Ingrese un número menos a 500"))
-while (numero < 500) {
-    numero = numero + 10
-    alert(numero)
+let color = prompt("Adivina uno de los colores primarios: ").toLowerCase()
+while (color != "rojo") {
+    alert("Perdiste, color incorrecto")
+    color = prompt("Ingresa otro color: ").toLowerCase()
+
 }
-alert("Su número es mayor a 500")
+alert("¡Felicitaciones, adivinaste!")
