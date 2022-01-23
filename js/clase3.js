@@ -15,20 +15,6 @@ while (numero <= 10) {
     numero = numero + 1
 }
 alert("El número es mayor a 10")
-*/
-/*let nombre = "luis";
-let usuario = "";
-while(nombre !== usuario) {
-    usuario = prompt("Ingrese nombre de usuario: ")
-    console.log("Bienvenido " + usuario);}
-
-let nombre = "tony";
-let usuario = "";
-do {usuario = prompt("Ingrese nombre de usuario: ").toLowerCase()
-if(nombre!==usuario){alert("usuario incorrecto, intentalo otra vez")}
-else {alert("Acceso permitido")}}
-while(nombre !== usuario)
-*/
 
 //For(Desde, hasta, actualizacion)
 /*for (let i = 0; i < 10; i++) {
