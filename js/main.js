@@ -11,11 +11,12 @@ const waffles = [
     { id: 4, nombre: "Waffle de jamón y queso", tipo: "salado", precio: 400 },
     { id: 5, nombre: "Waffles de jamón crudo y rúcula", tipo: "salado", precio: 500 },
 ];
-for (const id of waffles) {
-    let lista = id.id + " " + id.nombre;
-    alert(`Los siguientes son los productos disponibles: \n ${lista}`);
-}
+const listaWaffles = waffles.map(function(waffle) {
+    return waffle.id + " " + waffle.nombre + " ";
+});
+alert(`Los siguientes son los productos disponibles: \n  ${listaWaffles}`);
 let carritoDeCompras = []
+
 function agregarAlCarrito() {
     let otroProducto = "";
     do {
@@ -25,12 +26,13 @@ function agregarAlCarrito() {
         otroProducto = prompt("¿Quiere agregar otro producto?").toLowerCase()
     } while (otroProducto === "si");
     console.log(carritoDeCompras);
-    }
+}
 agregarAlCarrito()
+
 function mostrarCarrito() {
     console.log("cantidad de productos: " + carritoDeCompras.length);
     let total = carritoDeCompras.length;
     total = carritoDeCompras.reduce((acc, el) => acc + el.precio, 0)
     alert(`Su total a abonar es $${total}`);
-    }
+}
 mostrarCarrito();
