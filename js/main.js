@@ -16,7 +16,6 @@ for (const id of waffles) {
     alert(`Los siguientes son los productos disponibles: \n ${lista}`);
 }
 let carritoDeCompras = []
-
 function agregarAlCarrito() {
     let otroProducto = "";
     do {
@@ -26,15 +25,12 @@ function agregarAlCarrito() {
         otroProducto = prompt("¿Quiere agregar otro producto?").toLowerCase()
     } while (otroProducto === "si");
     console.log(carritoDeCompras);
-
-}
+    }
 agregarAlCarrito()
-
 function mostrarCarrito() {
     console.log("cantidad de productos: " + carritoDeCompras.length);
     let total = carritoDeCompras.length;
     total = carritoDeCompras.reduce((acc, el) => acc + el.precio, 0)
     alert(`Su total a abonar es $${total}`);
-
-}
+    }
 mostrarCarrito();
