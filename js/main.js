@@ -11,10 +11,12 @@ const waffles = [
     { id: 4, nombre: "Waffle de jamón y queso", tipo: "salado", precio: 400 },
     { id: 5, nombre: "Waffles de jamón crudo y rúcula", tipo: "salado", precio: 500 },
 ];
-const listaWaffles = waffles.map(function(waffle) {
-    return waffle.id + " " + waffle.nombre + " ";
+const listaWaffles = waffles.map((el) => {
+    return el.id + " " + el.nombre + " ";
+
 });
 alert(`Los siguientes son los productos disponibles: \n  ${listaWaffles}`);
+
 let carritoDeCompras = []
 
 function agregarAlCarrito() {
