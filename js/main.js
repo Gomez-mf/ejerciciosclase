@@ -1,59 +1,113 @@
-const lista = document.getElementById(`contenedor`);
-const tiposDeWaffles = document.getElementById(`tiposDeWaffles`);
-const agregarAlCarrito = [];
+let agregarAlCarrito = [];
+const lista = document.getElementById("listaDeProductos");
+const tiposDeWaffles = document.getElementById("tiposDeWaffles");
+const verCarrito = document.getElementById("carrito-contenedor");
+const contadorCarrito = document.getElementById("contadorCarrito");
+const precioTotal = document.getElementById('precioTotal');
+const comprar = document.getElementById('finalizarComprar');
 
-let titulo = document.getElementById("tituloPrincipal");
-titulo.innerHTML = `<h2>Bienvenido/a wafflitos VM</h2>`;
 
-let formulario = document.getElementById(`formulario`)
-formulario.addEventListener(`submit`, validarFormulario);
-
-function validarFormulario(e) {
-    e.preventDefault();
-    let usuario = document.getElementById(`usuario`).value;
-    let mostrar = document.getElementById(`nombreBienvenida`);
-    mostrar.innerHTML = `<p>Hola ${usuario} ¿Qué producto quieres comprar?</p>`;
-    console.log(`formulario enviado`)
-}
-
-/*Filtro Dulce/Salado*/
-tiposDeWaffles.addEventListener(`change`, () => {
+//Filtro
+tiposDeWaffles.addEventListener('change', () => {
     console.log(tiposDeWaffles.value);
-    if (tiposDeWaffles.value === `all`) {
+    if (tiposDeWaffles.value === 'todos') {
         mostrarProductos(waffles);
     } else {
         console.log(waffles.filter((el) => el.tipo === tiposDeWaffles.value));
         mostrarProductos(waffles.filter((el) => el.tipo === tiposDeWaffles.value));
     }
 });
-/*Mostrar Productos*/
+//Mostrar productos
 mostrarProductos(waffles);
 
 function mostrarProductos(waffles) {
     lista.innerHTML = "";
     for (const producto of waffles) {
         let contenedor = document.createElement("div");
-        contenedor.className = `card`
-        contenedor.innerHTML += `<h3></h3>
+        contenedor.className = `cardProdu`;
+        contenedor.innerHTML += `<h3>${producto.nombre}</h3>
                                 <img src=${producto.img}>
-                                <p>  Producto: ${producto.nombre}</p>
-                                <p> $ ${producto.precio}</p>
-                                <button class="botonComprar" id="${producto.id}">Comprar</button>
+                                <p>${producto.descripcion}</p>
+                                <button class="botonComprar" id="botonComprar${producto.id}">Comprar</button>
                                 `;
         lista.appendChild(contenedor);
+
+        let botoncomprar = document.getElementById(`botonComprar${producto.id}`);
+        botoncomprar.onclick = () => {
+            agregarAlCarritoFuncion(producto.id);
+        };
     }
 }
-/*Agregar al carrito*/
-botonAgregarCarrito = document.getElementsByClassName(`botonComprar`);
-for (boton of botonAgregarCarrito) {
-    boton.addEventListener(`click`, agregarAlCarritoFuncion)
-    console.log(boton)
+
+function agregarAlCarritoFuncion(id) {
+    let repetido = agregarAlCarrito.find(item => item.id === id);
+    if (repetido) {
+        repetido.cantidad = repetido.cantidad + 1
+        document.getElementById(`cantidad${repetido.id}`).innerHTML = `<td class="mostrar" id= cantidad${repetido.id}>Cantidad:${repetido.cantidad}</td>`
+        actualizarCarrito()
+    } else {
+        const items = waffles.find((producto) => producto.id === id);
+        agregarAlCarrito.push(items);
+        actualizarCarrito();
+        let tabla = document.createElement('tr');
+        tabla.innerHTML += `
+                            <td class="mostrar">${items.nombre}</td>
+                            <td class="mostrar" id= cantidad${items.id}>Cantidad:${items.cantidad}</td>
+                            <td class="mostrar">$${items.precio}</td>
+                            <i class="fas fa-trash-alt" id="eliminar${items.id}"></i> 
+                             `;
+        verCarrito.appendChild(tabla);
+
+        //Eliminar del carrito
+        const eliminarCarro = document.getElementById(`eliminar${items.id}`);
+        eliminarCarro.addEventListener('click', () => {
+            eliminarDelCarrito(id)
+        })
+
+        function eliminarDelCarrito(id) {
+            eliminarCarro.parentElement.remove()
+            agregarAlCarrito = agregarAlCarrito.filter((item) => item.id !== id)
+            actualizarCarrito()
+            guardarEnStorage()
+
+        }
+    }
+    guardarEnStorage()
+}
+actualizarCarrito();
+
+//Actualizo precios y cantidades del carrito
+function actualizarCarrito() {
+    contadorCarrito.innerText = agregarAlCarrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
+    precioTotal.innerText = agregarAlCarrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
+
 }
 
-function agregarAlCarritoFuncion(e) {
-    let botonWaffle = parseInt(e.target.id)
-    console.log(botonWaffle)
-    const items = waffles.find((producto) => producto.id === botonWaffle)
-    agregarAlCarrito.push(items)
+//Funcion para guardar en storage
+function guardarEnStorage() {
+    let setItems = localStorage.setItem('carrito', JSON.stringify(agregarAlCarrito));
+    return setItems;
 }
-console.log(agregarAlCarrito)
+
+function recuperarCarrito() {
+    let recuperarProductos = JSON.parse(localStorage.getItem('carrito'));
+    if (recuperarProductos) {
+        recuperarProductos.forEach(element => {
+            agregarAlCarritoFuncion(element.id)
+        })
+    }
+}
+recuperarCarrito()
+
+//Finalizar comprar
+comprar.addEventListener('click', finalizarCompra)
+
+function finalizarCompra() {
+    verCarrito.innerHTML = "";
+    let mensajeFinalizarCompra = document.createElement('p')
+    mensajeFinalizarCompra.innerHTML += `¡Muchas gracias por su compra!`
+    verCarrito.appendChild(mensajeFinalizarCompra)
+    agregarAlCarrito = []
+    localStorage.clear();
+    actualizarCarrito();
+}
