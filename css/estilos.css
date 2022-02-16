@@ -16,15 +16,6 @@ header {
     box-shadow: 0px 6px 5px 3px rgba(0, 0, 0, 0.425);
 }
 
-header nav h1 {
-    color: #b1575a;
-    display: flex;
-    flex-direction: row;
-    flex-flow: nowrap;
-    justify-content: center;
-    align-items: center;
-}
-
 .logo {
     position: absolute;
     z-index: 40;
@@ -32,6 +23,53 @@ header nav h1 {
 
 .container-fluid {
     background-color: #f3eadb;
+}
+
+header nav .menu {
+    display: flex;
+    flex-direction: row;
+    flex-flow: nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #b1575a;
+}
+
+header nav .menu .links {
+    display: flex;
+}
+
+header nav .menu .links a {
+    padding-top: 16px;
+    text-decoration: none;
+    margin: 0 25px 0;
+    color: #b1575a;
+    font-size: 18px;
+}
+
+
+/* header nav .menu .links a:hover {
+    font-size: 20px;
+    background-color: #f3eadb;
+    color: red;
+    border-bottom: 3px solid red;
+} */
+
+.iconosMenu {
+    margin: 0px 5px;
+}
+
+.botonComprar {
+    background-color: #b1575a;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 14px;
+    padding: 10px 25px;
+}
+
+.botonComprar:hover {
+    cursor: pointer;
 }
 
 p {
@@ -71,16 +109,7 @@ h6 {
     margin-top: 15px;
 }
 
-select {
-    display: inline;
-    text-align: center;
-    border: 1px solid #de9b20;
-    ;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.contenedor {
+#listaDeProductos {
     display: flex;
     flex-flow: row wrap;
     justify-items: center;
@@ -89,11 +118,118 @@ select {
     margin-bottom: 35px;
 }
 
-.card {
+.cardProdu {
     border: 3px dashed #de9b20;
     margin-bottom: 15px;
 }
 
 .botonComprar {
     margin-bottom: 10px;
+}
+
+select {
+    margin: 15px 10px;
+    background-color: #b1575a;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 14px;
+    padding: 10px 25px;
+}
+
+#carrito-contenedor {
+    margin: 150px auto;
+    width: 600px;
+}
+
+table {
+    background-color: white;
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 20px;
+}
+
+thead {
+    background-color: #b1575a;
+    border-bottom: solid 5px #f3eadb;
+    color: white;
+}
+
+.mostrar {
+    color: #b1575a;
+    width: 37%;
+    text-align: left;
+}
+
+.fa-trash-alt {
+    color: #b1575a;
+}
+
+.fa-times-circle {
+    color: #b1575a;
+}
+
+
+/* Modal */
+
+.modal-contenedor {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 5;
+}
+
+.modal-carrito {
+    position: relative;
+    background-color: #f3eadb;
+    min-width: 500px;
+    padding: 10px;
+    transition: all .5s;
+}
+
+.modal-active .modal-carrito {
+    margin-top: 0;
+}
+
+.modal-carrito #carritoCerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
+    border: none;
+}
+
+.modal-carrito #carritoCerrar:hover {
+    cursor: pointer;
+}
+
+.modal-carrito #carritoCerrar:focus {
+    outline: none;
+}
+
+#boton-carrito {
+    margin-top: 15px;
+    border: none;
+    background-color: #f3eadb;
+    color: #b1575a;
+    font-size: 18px;
 }
