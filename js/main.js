@@ -40,40 +40,34 @@ function mostrarProductos(waffles) {
 }
 
 function agregarAlCarritoFuncion(id) {
-    let repetido = agregarAlCarrito.find(item => item.id === id);
-    if (repetido) {
-        repetido.cantidad = repetido.cantidad + 1
-        document.getElementById(`cantidad${repetido.id}`).innerHTML = `<td class="mostrar" id= cantidad${repetido.id}>Cantidad:${repetido.cantidad}</td>`
-        actualizarCarrito()
-    } else {
-        const items = waffles.find((producto) => producto.id === id);
-        agregarAlCarrito.push(items);
-        actualizarCarrito();
-        let tabla = document.createElement('tr');
-        tabla.innerHTML += `
+    const items = waffles.find((producto) => producto.id === id);
+    agregarAlCarrito.push(items);
+    actualizarCarrito();
+    let tabla = document.createElement('tr');
+    tabla.innerHTML += `
                             <td class="mostrar">${items.nombre}</td>
-                            <td class="mostrar" id= cantidad${items.id}>Cantidad:${items.cantidad}</td>
+                            <td class="mostrar">Cantidad:${items.cantidad}</td>
                             <td class="mostrar">$${items.precio}</td>
                             <i class="fas fa-trash-alt" id="eliminar${items.id}"></i> 
                              `;
-        verCarrito.appendChild(tabla);
+    verCarrito.appendChild(tabla);
 
-        //Eliminar del carrito
-        const eliminarCarro = document.getElementById(`eliminar${items.id}`);
-        eliminarCarro.addEventListener('click', () => {
-            eliminarDelCarrito(id)
-        })
+    //Eliminar del carrito
+    const eliminarCarro = document.getElementById(`eliminar${items.id}`);
+    eliminarCarro.addEventListener('click', () => {
+        eliminarDelCarrito(id)
+    })
 
-        function eliminarDelCarrito(id) {
-            eliminarCarro.parentElement.remove()
-            agregarAlCarrito = agregarAlCarrito.filter((item) => item.id !== id)
-            actualizarCarrito()
-            guardarEnStorage()
+    function eliminarDelCarrito(id) {
+        eliminarCarro.parentElement.remove()
+        agregarAlCarrito = agregarAlCarrito.filter((item) => item.id !== id)
+        actualizarCarrito()
+        guardarEnStorage()
 
-        }
     }
     guardarEnStorage()
 }
+
 actualizarCarrito();
 
 //Actualizo precios y cantidades del carrito
