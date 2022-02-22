@@ -86,15 +86,7 @@ function mostrarCarrito(carrito) {
         //Eliminar
         let botonEliminar = document.getElementById(`eliminar${id}`)
         botonEliminar.addEventListener('click', () => {
-            eliminarDelCarrito(producto.id)
-        })
-
-        function eliminarDelCarrito(id) {
-            botonEliminar.parentElement.remove()
-            carrito = carrito.filter((item) => item.id !== id)
-            guardarLocalStorage(carrito)
-            actualizarCarrito()
-            swal({
+                        swal({
                     title: "Eliminar producto",
                     text: "¿Está seguro que quiere eliminar este producto?",
                     icon: "warning",
@@ -105,11 +97,19 @@ function mostrarCarrito(carrito) {
                     if (willDelete) {
                         swal("Producto eliminado", {
                             icon: "success",
+                            eliminarDelCarrito(id)
                         });
                     } else {
                         swal("No ha eliminado el producto");
                     }
-                });
+            eliminarDelCarrito(producto.id)
+        })
+
+        function eliminarDelCarrito(id) {
+            botonEliminar.parentElement.remove()
+            carrito = carrito.filter((item) => item.id !== id)
+            guardarLocalStorage(carrito)
+            actualizarCarrito()});
         }
     });
     // mostrarInformacion()
