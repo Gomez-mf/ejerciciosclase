@@ -127,7 +127,7 @@ actualizarCarrito()
 //     }
 // }
 
-function actualizarCarrito() {
+function actualizarCarrito(carrito) {
     contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
     precioTotal.innerText = carrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
 }
