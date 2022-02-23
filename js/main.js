@@ -144,3 +144,4 @@ function finalizarCompra() {
     localStorage.clear();
     actualizarCarrito(carrito);
 }
+//
