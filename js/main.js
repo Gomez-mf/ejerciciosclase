@@ -59,7 +59,7 @@ function agregarAlCarrito(id) {
     }
     mostrarCarrito(carrito)
     guardarLocalStorage(carrito)
-    actualizarCarrito()
+    actualizarCarrito(carrito)
 }
 
 function guardarLocalStorage(carrito) {
@@ -86,14 +86,6 @@ function mostrarCarrito(carrito) {
         //Eliminar
         let botonEliminar = document.getElementById(`eliminar${id}`)
         botonEliminar.addEventListener('click', () => {
-            eliminarDelCarrito(producto.id)
-        })
-
-        function eliminarDelCarrito(id) {
-            botonEliminar.parentElement.remove()
-            carrito = carrito.filter((item) => item.id !== id)
-            guardarLocalStorage(carrito)
-            actualizarCarrito()
             swal({
                     title: "Eliminar producto",
                     text: "¿Está seguro que quiere eliminar este producto?",
@@ -105,16 +97,23 @@ function mostrarCarrito(carrito) {
                     if (willDelete) {
                         swal("Producto eliminado", {
                             icon: "success",
-                        });
+                        }), eliminarDelCarrito(producto.id)
                     } else {
                         swal("No ha eliminado el producto");
                     }
-                });
+                })
+        })
+
+        function eliminarDelCarrito(id) {
+            botonEliminar.parentElement.remove()
+            carrito = carrito.filter((item) => item.id !== id)
+            guardarLocalStorage(carrito)
+            actualizarCarrito(carrito)
         }
     });
     // mostrarInformacion()
 }
-actualizarCarrito()
+actualizarCarrito(carrito)
 
 
 
@@ -127,7 +126,7 @@ actualizarCarrito()
 //     }
 // }
 
-function actualizarCarrito() {
+function actualizarCarrito(carrito) {
     contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
     precioTotal.innerText = carrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
 }
@@ -143,5 +142,5 @@ function finalizarCompra() {
     verCarrito.appendChild(mensajeFinalizarCompra)
     carrito = []
     localStorage.clear();
-    actualizarCarrito();
+    actualizarCarrito(carrito);
 }
