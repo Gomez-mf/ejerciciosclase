@@ -1,4 +1,5 @@
 let carrito = [];
+let waffles = [];
 const lista = document.getElementById("listaDeProductos");
 const tiposDeWaffles = document.getElementById("tiposDeWaffles");
 const verCarrito = document.querySelector('.tabla')
@@ -8,13 +9,21 @@ const footerCarrito = document.getElementById('footerCarrito');
 const precioTotal = document.getElementById('precioTotal');
 
 
-//Filtro
+fetch('js/stock.json')
+    .then(Response => Response.json())
+    .then(data => {
+        waffles = data
+        listaDeProductos(waffles)
+    })
+    .catch(error => console.log(error))
+
+
+// // Filtro
 tiposDeWaffles.addEventListener('change', () => {
     tiposDeWaffles.value === 'todos' ? listaDeProductos(waffles) : listaDeProductos(waffles.filter((el) => el.tipo === tiposDeWaffles.value));
 });
-// //Mostrar productos
+//Mostrar productos
 recuperarLocalStorage()
-listaDeProductos(waffles)
 
 function listaDeProductos(waffles) {
     lista.innerHTML = "";
@@ -42,7 +51,6 @@ function listaDeProductos(waffles) {
 }
 
 function agregarAlCarrito(id) {
-    console.log(carrito)
     let repetido = carrito.some((items) => items.id === id)
     if (repetido) {
         carrito = carrito.map(elemento => {
@@ -56,10 +64,11 @@ function agregarAlCarrito(id) {
     } else {
         const items = waffles.find((producto) => producto.id === id);
         carrito.push(items)
+        mostrarInformacion()
     }
     mostrarCarrito(carrito)
-    guardarLocalStorage(carrito)
     actualizarCarrito(carrito)
+    guardarLocalStorage(carrito)
 }
 
 function guardarLocalStorage(carrito) {
@@ -107,24 +116,22 @@ function mostrarCarrito(carrito) {
         function eliminarDelCarrito(id) {
             botonEliminar.parentElement.remove()
             carrito = carrito.filter((item) => item.id !== id)
-            guardarLocalStorage(carrito)
             actualizarCarrito(carrito)
+            mostrarInformacion()
+            guardarLocalStorage(carrito)
         }
     });
-    // mostrarInformacion()
 }
+mostrarInformacion()
 actualizarCarrito(carrito)
 
 
 
-// function mostrarInformacion() {
-//     footerCarrito.innerHTML = "";
-//     if (carrito.length === 0) {
-//         footerCarrito.innerHTML = `<td>Carrito vacio. Comienza a comprar</td>`
-//     } else {
-//         footerCarrito.innerHTML = `<p class="precioProducto">Precio total: $<span id="precioTotal">0</span></p><button class="botonComprar" id="finalizarComprar">Finalizar Compra</button>`
-//     }
-// }
+function mostrarInformacion() {
+    footerCarrito.innerHTML = "";
+    carrito.length === 0 ? footerCarrito.innerHTML = `<p>Carrito vacio. Comienza a comprar</p>` : footerCarrito.innerHTML = `<p class="precioProducto">Precio total: $<span id="precioTotal">0</span></p><button class="botonComprar" id="finalizarComprar">Finalizar Compra</button>`
+
+}
 
 function actualizarCarrito(carrito) {
     contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
@@ -144,4 +151,3 @@ function finalizarCompra() {
     localStorage.clear();
     actualizarCarrito(carrito);
 }
-//
