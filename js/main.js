@@ -4,9 +4,8 @@ const lista = document.getElementById("listaDeProductos");
 const tiposDeWaffles = document.getElementById("tiposDeWaffles");
 const verCarrito = document.querySelector('.tabla')
 const contadorCarrito = document.getElementById("contadorCarrito");
-const comprar = document.getElementById('finalizarComprar');
 const footerCarrito = document.getElementById('footerCarrito');
-const precioTotal = document.getElementById('precioTotal');
+let precioTotal = document.getElementById('precioTotal');
 
 
 fetch('js/stock.json')
@@ -34,7 +33,7 @@ function listaDeProductos(waffles) {
         contenedor.innerHTML += `<h3>${nombre}</h3>
                                 <img src=${img}>
                                 <p>${descripcion}</p>
-                                <button class="botonComprar" id="botonComprar${id}">Comprar</button>
+                                <button class="botonGral" id="botonComprar${id}">Comprar</button>
                                 `;
         lista.appendChild(contenedor);
         let botoncomprar = document.getElementById(`botonComprar${id}`);
@@ -50,6 +49,7 @@ function listaDeProductos(waffles) {
     })
 }
 
+
 function agregarAlCarrito(id) {
     let repetido = carrito.some((items) => items.id === id)
     if (repetido) {
@@ -64,23 +64,14 @@ function agregarAlCarrito(id) {
     } else {
         const items = waffles.find((producto) => producto.id === id);
         carrito.push(items)
-        mostrarInformacion()
     }
-    mostrarCarrito(carrito)
+    mostrarCarrito()
+    mostrarFooter()
     actualizarCarrito(carrito)
     guardarLocalStorage(carrito)
 }
 
-function guardarLocalStorage(carrito) {
-    localStorage.setItem('carrito', JSON.stringify(carrito))
-}
-
-function recuperarLocalStorage() {
-    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    mostrarCarrito(carrito)
-}
-
-function mostrarCarrito(carrito) {
+function mostrarCarrito() {
     verCarrito.innerHTML = "";
     carrito.forEach(producto => {
         const { nombre, cantidad, precio, id } = producto;
@@ -89,12 +80,15 @@ function mostrarCarrito(carrito) {
                                 <td class="mostrar">${nombre}</td>
                                 <td class="mostrar">Cantidad:${cantidad}</td>
                                 <td class="mostrar">$${precio}</td>
-                                <i class="fas fa-trash-alt" id="eliminar${id}"></i> 
+                                <i class="fas fa-trash-alt" id="eliminar${id}"></i>
+                                <td></td>
                                  `;
         verCarrito.appendChild(tabla);
+
         //Eliminar
         let botonEliminar = document.getElementById(`eliminar${id}`)
         botonEliminar.addEventListener('click', () => {
+            eliminarDelCarrito(id)
             swal({
                     title: "Eliminar producto",
                     text: "¿Está seguro que quiere eliminar este producto?",
@@ -114,40 +108,67 @@ function mostrarCarrito(carrito) {
         })
 
         function eliminarDelCarrito(id) {
-            botonEliminar.parentElement.remove()
-            carrito = carrito.filter((item) => item.id !== id)
+            botonEliminar.parentElement.remove(carrito)
+            carrito = carrito.filter((producto) => producto.id !== id)
+            footerCarrito()
             actualizarCarrito(carrito)
-            mostrarInformacion()
             guardarLocalStorage(carrito)
         }
     });
 }
-mostrarInformacion()
+actualizarCarrito(carrito)
+
+function guardarLocalStorage(carrito) {
+    localStorage.setItem('carrito', JSON.stringify(carrito))
+}
+
+function recuperarLocalStorage() {
+    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    mostrarCarrito()
+}
+
+function mostrarFooter() {
+    footerCarrito.innerHTML = "";
+    if (carrito.length == 0) {
+        footerCarrito.innerHTML = `<p>Carrito vacio. Comienza a comprar</p>`
+        return
+    } else {
+        footerCarrito.innerHTML = `<p>Precio total: $<span id="precioTotal">0</span></p><button class="botonGral"><a href="./pages/pago.html">Finalizar Compra</a></button>`
+        return
+    }
+}
+mostrarFooter()
 actualizarCarrito(carrito)
 
 
-
-function mostrarInformacion() {
-    footerCarrito.innerHTML = "";
-    carrito.length === 0 ? footerCarrito.innerHTML = `<p>Carrito vacio. Comienza a comprar</p>` : footerCarrito.innerHTML = `<p class="precioProducto">Precio total: $<span id="precioTotal">0</span></p><button class="botonComprar" id="finalizarComprar">Finalizar Compra</button>`
-
-}
-
 function actualizarCarrito(carrito) {
+    let precioTotal = document.getElementById('precioTotal');
     contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
     precioTotal.innerText = carrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
 }
 
 
-//Finalizar comprar
+// Finalizar comprar
+const comprar = document.getElementById('finalizarComprar');
 comprar.addEventListener('click', finalizarCompra)
 
 function finalizarCompra() {
-    verCarrito.innerHTML = "";
-    let mensajeFinalizarCompra = document.createElement('p')
-    mensajeFinalizarCompra.innerHTML += `¡Muchas gracias por su compra!`
-    verCarrito.appendChild(mensajeFinalizarCompra)
-    carrito = []
-    localStorage.clear();
-    actualizarCarrito(carrito);
+
 }
+
+fetch(`https://formsubmit.co/ajax/7e77fc1b7e4412f9635f9c5bdd658a0a`, {
+        method: "POST",
+        body: new FormData(e.target)
+    })
+    .then(res => res.ok ? res.json : Promise.reject(res))
+    .then(json => {
+        verCarrito.innerHTML = "";
+        let mensajeFinalizarCompra = document.createElement('p')
+        mensajeFinalizarCompra.innerHTML += `¡Muchas gracias por su compra!`
+        verCarrito.appendChild(mensajeFinalizarCompra)
+        carrito = []
+        localStorage.clear();
+        actualizarCarrito(carrito);
+        setTimeout(() => { location.reload() }, 2000);
+    })
+    .catch(console.warn)
