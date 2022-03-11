@@ -1,7 +1,0 @@
-const waffles = [
-    { id: 1, nombre: "Waffles frutales", tipo: "dulce", descripcion: "Waffles de avena.<br> Rellenos con: Dulce de leche, frutillas o nutella.<br>Acompañalo con frutillas, kiwis o bananas.<br>", precio: 375, img: `./media/wafflefruta.png`, cantidad: 1 },
-    { id: 2, nombre: "Waffles con golosinas", tipo: "dulce", descripcion: "Waffles de avena.<br> Rellenos con: Dulce de leche, frutillas o nutella.<br>Acompañalo con Rocklets, oreos, kit kat, ferrero rocher.<br>", precio: 350, img: `./media/wafflegolosinas.png`, cantidad: 1 },
-    { id: 3, nombre: "Waffles con oreos", tipo: "dulce", descripcion: "Waffles de avena.<br> Rellenos con: Dulce de leche, frutillas o nutella.<br>", precio: 350, img: `./media/waffleoroes.png`, cantidad: 1 },
-    { id: 4, nombre: "Waffle de jamón y queso", tipo: "salado", descripcion: "Waffles de avena.<br> Rellenos con: jamón y queso.<br>Lo podes acompañar con tomate y aderezos.<br>", precio: 400, img: `./media/jyq.png`, cantidad: 1 },
-    { id: 5, nombre: "Waffles de jamón crudo y rúcula", tipo: "salado", descripcion: "Waffles de avena.<br> Rellenos con: Jamón crudo, tomate, queso y rúcula.<br>", precio: 500, img: `./media/rucula.png`, cantidad: 1 },
-];
