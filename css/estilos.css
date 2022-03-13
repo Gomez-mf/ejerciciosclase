@@ -21,7 +21,14 @@ header {
     z-index: 40;
 }
 
+nav {
+    position: fixed;
+    width: 100%;
+    background-color: #f3eadb;
+}
+
 .container-fluid {
+    position: fixed;
     background-color: #f3eadb;
 }
 
@@ -49,15 +56,8 @@ header nav .menu .links a {
 a {
     list-style: none;
     color: white;
+    text-decoration: none;
 }
-
-
-/* header nav .menu .links a:hover {
-    font-size: 20px;
-    background-color: #f3eadb;
-    color: red;
-    border-bottom: 3px solid red;
-} */
 
 .iconosMenu {
     margin: 0px 5px;
@@ -71,6 +71,7 @@ a {
     color: white;
     font-size: 14px;
     padding: 10px 25px;
+    margin-bottom: 10px;
 }
 
 .botonGral:hover {
@@ -96,6 +97,8 @@ h2 {
 h3 {
     color: #b1575a;
     margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 h4 {
@@ -205,6 +208,11 @@ thead {
     visibility: hidden;
 }
 
+#carrito-contenedor {
+    margin: 100px, auto;
+    width: 600px;
+}
+
 .modal-active {
     opacity: 1;
     visibility: visible;
@@ -214,7 +222,7 @@ thead {
 .modal-carrito {
     position: relative;
     background-color: #f3eadb;
-    min-width: 500px;
+    min-width: 600px;
     padding: 10px;
     transition: all .5s;
 }
@@ -298,4 +306,39 @@ thead {
 
 .swal-icon--success__line {
     background-color: #de9c20a2;
+}
+
+.contenedorFormulario form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+form {
+    width: 100;
+    margin: 0 15px 0 15px;
+}
+
+.contenedorFormulario p {
+    padding: 1px;
+    text-align: left
+}
+
+.contenedorFormulario form input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    outline: 0;
+    border-bottom: 2px solid #de9c20a2;
+    color: #b1575a;
+}
+
+.contenedorFormulario form button {
+    background-color: #b1575a;
+    color: white;
+    border: 0;
+    text-transform: uppercase;
+    margin-top: 10px;
+    text-align: center;
+    align-items: center;
 }
