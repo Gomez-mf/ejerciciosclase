@@ -5,9 +5,10 @@ const tiposDeWaffles = document.getElementById("tiposDeWaffles");
 const modal = document.getElementById('carrito-contenedor');
 const contadorCarrito = document.getElementById("contadorCarrito");
 const verCarrito = document.getElementById('tabla');
-let precioTotal = document.getElementById('precioTotal');
+let precio = document.getElementById('precioTotal');
 let comprar = document.getElementById('finalizarCompra');
 const footerCarrito = document.getElementById('footerCarrito');
+let botones = document.getElementById('que');
 
 //Llamo a mi archivo json para cargar mis productos
 fetch('js/stock.json')
@@ -71,7 +72,7 @@ function agregarAlCarrito(id) {
     }
     mostrarCarrito()
     mostrarFooter()
-    actualizarCarrito()
+    actualizarCarrito(carrito)
     guardarLocalStorage(carrito)
 }
 
@@ -114,12 +115,12 @@ function mostrarCarrito() {
         function eliminarDelCarrito(id) {
             botonEliminar.parentElement.remove(carrito)
             carrito = carrito.filter((producto) => producto.id !== id)
-            actualizarCarrito()
+            actualizarCarrito(carrito)
             guardarLocalStorage(carrito)
         }
     });
 }
-actualizarCarrito()
+actualizarCarrito(carrito)
     //Se guarda el carrito en storage
 function guardarLocalStorage(carrito) {
     localStorage.setItem('carrito', JSON.stringify(carrito))
@@ -139,19 +140,18 @@ function mostrarFooter() {
         return
     } else {
         footerCarrito.innerHTML = `<p>Precio total: $<span id="precioTotal">0</span></p><button class="botonGral" id="finalizarCompra">Finalizar compra</button>`
-        actualizarCarrito()
+        actualizarCarrito(carrito)
         let comprar = document.getElementById('finalizarCompra');
         comprar.addEventListener('click', finalizarCompra)
     }
-
 }
 mostrarFooter()
 
 //Funcion para actualizar precio y cantidad
-function actualizarCarrito() {
-    precioTotal = document.getElementById('precioTotal');
+function actualizarCarrito(carrito) {
+    precio = document.getElementById('precioTotal');
     contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
-    precioTotal.innerText = carrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
+    precio.innerText = carrito.reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
 }
 // Finalizar comprar- Al presionar el boton se imprime el formulario y luego se enviara la información al mail
 comprar.addEventListener('click', finalizarCompra)
@@ -210,13 +210,13 @@ function finalizarCompra() {
                 let email = document.getElementById('email').value
                 modal.innerHTML = "";
                 modal.innerHTML += `<p> ¡Gracias ${nombre} por tu compra!<br>
-        Te hemos enviado un correo a ${email} para proceder con el pago</p>
-        <button class="botonGral"><a href="./index.html">Volver a atrás</a></button>
-        `
+                                    Te hemos enviado un correo a ${email} para proceder con el pago</p>
+                                    <button class="botonGral"><a href="./index.html">Volver a atrás</a></button>
+                                    `
                 carrito = []
                 localStorage.clear();
-                actualizarCarrito()
             })
     }
+
     formulario.addEventListener('submit', enviarFormulario)
 }
