@@ -215,6 +215,9 @@ function finalizarCompra() {
                                     `
                 carrito = []
                 localStorage.clear();
+                //Vuelvo a calcular solo la cantidad porque si llamo a la función de actualizarCarrito me tira error de consola.
+                contadorCarrito.innerText = carrito.reduce((acc, { cantidad }) => acc + cantidad, 0);
+
             })
     }
 
