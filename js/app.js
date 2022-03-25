@@ -8,7 +8,6 @@ const verCarrito = document.getElementById('tabla');
 let precio = document.getElementById('precioTotal');
 let comprar = document.getElementById('finalizarCompra');
 const footerCarrito = document.getElementById('footerCarrito');
-let botones = document.getElementById('que');
 
 //Llamo a mi archivo json para cargar mis productos
 fetch('js/stock.json')
